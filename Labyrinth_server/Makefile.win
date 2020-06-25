@@ -1,0 +1,42 @@
+# Project: Labyrinth
+# Makefile
+
+CPP = C:\Programs\mingw\bin\mingw32-g++
+
+CXXFLAGS = -Werror -Wall -std=c++11 -Wno-write-strings -Wno-unused-function
+MODULES = src/compat-5.3.o src/lua_state_singleton.o src/bind_functions.o src/player.o src/game_map.o src/room.o src/server.o src/main.o
+
+.PHONY: all clean
+
+all: bin/main clean
+
+src/compat-5.3.o: src/compat-5.3.c src/compat-5.3.h
+	$(CPP) $(CXXFLAGS) -c src/compat-5.3.c -o src/compat-5.3.o
+
+src/lua_state_singleton.o: src/lua_state_singleton.cpp src/lua_state_singleton.h
+	$(CPP) $(CXXFLAGS) -c src/lua_state_singleton.cpp -o src/lua_state_singleton.o
+
+src/bind_functions.o: src/bind_functions.cpp src/bind_functions.h
+	$(CPP) $(CXXFLAGS) -c src/bind_functions.cpp -o src/bind_functions.o
+
+src/player.o: src/player.cpp src/player.h
+	$(CPP) $(CXXFLAGS) -c src/player.cpp -o src/player.o
+
+src/game_map.o: src/game_map.cpp src/game_map.h
+	$(CPP) $(CXXFLAGS) -c src/game_map.cpp -o src/game_map.o
+
+src/room.o: src/room.cpp src/room.h
+	$(CPP) $(CXXFLAGS) -c src/room.cpp -o src/room.o
+
+src/server.o: src/server.cpp src/server.h
+	$(CPP) $(CXXFLAGS) -c src/server.cpp -o src/server.o
+
+src/main.o: src/main.cpp
+	$(CPP) $(CXXFLAGS) -c src/main.cpp -o src/main.o
+
+bin/main: $(MODULES) 
+	$(CPP) $(CXXFLAGS) $(MODULES) -o bin/main -llua
+	
+clean:
+	rm -f $(MODULES)
+    
